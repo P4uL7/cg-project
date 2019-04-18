@@ -77,32 +77,29 @@ var colors = [];
 
 // Handling the Vertex and the Color Buffers
 
+
 function initBuffers() {
 
     // Coordinates
-
-    triangleVertexPositionBuffer = gl.createBuffer();
+    // triangleVertexPositionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
     triangleVertexPositionBuffer.itemSize = 3;
     triangleVertexPositionBuffer.numItems = vertices.length / 3;
 
     // Associating to the vertex shader
-
     gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute,
         triangleVertexPositionBuffer.itemSize,
         gl.FLOAT, false, 0, 0);
 
     // Colors
-
-    triangleVertexColorBuffer = gl.createBuffer();
+    // triangleVertexColorBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexColorBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
     triangleVertexColorBuffer.itemSize = 3;
     triangleVertexColorBuffer.numItems = colors.length / 3;
 
     // Associating to the vertex shader
-
     gl.vertexAttribPointer(shaderProgram.vertexColorAttribute,
         triangleVertexColorBuffer.itemSize,
         gl.FLOAT, false, 0, 0);
@@ -117,33 +114,23 @@ function drawModel(angleXX, angleYY, angleZZ,
     primitiveType) { //gl.TRIANGLES
 
     // The the global model transformation is an input
-
     // Concatenate with the particular model transformations
-
     // Pay attention to transformation order !!
 
     mvMatrix = mult(mvMatrix, translationMatrix(tx, ty, tz));
-
     mvMatrix = mult(mvMatrix, rotationZZMatrix(angleZZ));
-
     mvMatrix = mult(mvMatrix, rotationYYMatrix(angleYY));
-
     mvMatrix = mult(mvMatrix, rotationXXMatrix(- 90));
-
     mvMatrix = mult(mvMatrix, scalingMatrix(sx, sy, sz));
 
     // Passing the Model View Matrix to apply the current transformation
-
     var mvUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
-
     gl.uniformMatrix4fv(mvUniform, false, new Float32Array(flatten(mvMatrix)));
 
     // Associating the data to the vertex shader
-
     initBuffers();
 
     // Drawing 
-
     gl.drawArrays(primitiveType, 0, triangleVertexPositionBuffer.numItems);
 
 }
@@ -508,7 +495,8 @@ function setEventListeners() {
                     level = 1;
                     points = 0;
 
-                    document.getElementById('myLink').innerHTML = "Destroy all invaders!!";
+                    // document.getElementById('myLink').innerHTML = "Destroy all invaders!!";
+                    document.getElementById('myLink').innerHTML = "";
                     document.getElementById('right').innerHTML = "Level: 1 <br> Points: 0";
 
                     gameover = false;
@@ -521,7 +509,8 @@ function setEventListeners() {
                     console.log("Pause");
                     pause = !pause;
                     if (pause) document.getElementById('myLink').innerHTML = "Game Paused";
-                    else document.getElementById('myLink').innerHTML = "Destroy all invaders!!";
+                    // else document.getElementById('myLink').innerHTML = "Destroy all invaders!!";
+                    else document.getElementById('myLink').innerHTML = "";
                     break;
                 }
         }
@@ -567,8 +556,11 @@ function runWebGL() {
 
     setEventListeners();
 
+    triangleVertexPositionBuffer = gl.createBuffer();
+    triangleVertexColorBuffer = gl.createBuffer();
     initBuffers();
 
     tick();
+
 
 }
